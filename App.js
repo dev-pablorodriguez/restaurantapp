@@ -21,7 +21,7 @@ const App = () => {
     <FirebaseState>
       <PedidosState>
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerStyle: { backgroundColor: '#FFDA00'}, headerTitleStyle: { fontWeight: 'bold' }, headerTitleAlign: 'center' }}>
+          <Stack.Navigator screenOptions={{ headerStyle: { backgroundColor: '#FFDA00'}, headerTitleStyle: { fontWeight: 'bold' }, headerTitleAlign: 'center', headerTintColor: '#000' }}>
             <Stack.Screen name='NuevaOrden' component={ NuevaOrden } options={{ title: 'Nueva Orden' }} />
             <Stack.Screen name='Menu' component={ Menu } options={{ title: 'Nuestro Menú' }} />
             <Stack.Screen name='DetallePlatillo' component={ DetallePlatillo } options={{ title: 'Detalle Platillo' }} />
