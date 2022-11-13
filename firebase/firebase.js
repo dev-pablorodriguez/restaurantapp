@@ -9,6 +9,8 @@ class Firebase {
             app.initializeApp(firebaseConfig);
         }
 
+        //se utiliza para esperar la carga de registros y no recibir el error de 10 segundos
+        app.firestore().settings({ experimentalForceLongPolling: true, merge: true })
         this.db = app.firestore();
     }
 }
