@@ -63,7 +63,6 @@ const FormularioPlatillo = ({ route }) => {
           pedido.cantidad = cantidad;
           pedido.total = total;
 
-          console.log('agregado ', pedido)
           addPedidoItem(pedido)
 
           //Navegar hacia ResumenPedido

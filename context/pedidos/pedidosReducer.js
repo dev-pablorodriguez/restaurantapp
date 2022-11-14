@@ -1,4 +1,4 @@
-import { ADD_PEDIDO_ITEM } from '../../reducerTypes'
+import { ADD_PEDIDO_ITEM, SET_TOTAL_PAGAR } from '../../reducerTypes'
 
 export default (state, action) => {
     switch(action.type){
@@ -22,6 +22,9 @@ export default (state, action) => {
             })
 
             return existsInPedido ? { ...state, pedido } : { ...state, pedido: [ ...state.pedido, action.payload ] }
+
+        case SET_TOTAL_PAGAR:
+            return { ...state, total: action.payload }
 
         default:
             return state;

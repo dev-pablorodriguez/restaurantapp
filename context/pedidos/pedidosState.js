@@ -2,12 +2,13 @@ import React, { useReducer } from 'react'
 import pedidosReducer from './pedidosReducer'
 import PedidosContext from './pedidosContext'
 
-import { ADD_PEDIDO_ITEM } from '../../reducerTypes'
+import { ADD_PEDIDO_ITEM, SET_TOTAL_PAGAR } from '../../reducerTypes'
 
 const PedidosState = ({ children }) => {
     //crear state inicial
     const initialState = {
-        pedido: []
+        pedido: [],
+        total: 0
     }
 
     //useReducer con dispatch para ejecutar las funciones
@@ -21,8 +22,16 @@ const PedidosState = ({ children }) => {
         })
     }
 
+    //Actualizar el total a pagar
+    const setTotalPagar = total => {
+        dispatch({
+            type: SET_TOTAL_PAGAR,
+            payload: total
+        })
+    }
+
     return (
-        <PedidosContext.Provider value={{ ...state, addPedidoItem }}>
+        <PedidosContext.Provider value={{ ...state, addPedidoItem, setTotalPagar }}>
             { children }
         </PedidosContext.Provider>
     )
