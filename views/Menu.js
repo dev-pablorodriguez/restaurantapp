@@ -1,7 +1,7 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, Fragment } from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
 import FirebaseContext from '../context/firebase/firebaseContext'
-import { ListItem, Avatar } from '@rneui/themed'
+import { ListItem, Avatar, Text } from '@rneui/themed'
 import globalStyles from '../styles/global'
 
 
@@ -13,23 +13,39 @@ const Menu = () => {
     getProductos()
   }, [])
 
+  const mostrarHeaderCategoria = (categoria, idx) => {
+    const isPrintingHeader = idx === 0 || categoria !== menu[ idx - 1 ].categoria; 
+
+    if(isPrintingHeader){
+      return (
+        <View style={ styles.separador }>
+          <Text style={ styles.separadorTexto }>{ categoria }</Text>
+        </View>
+      )
+    }
+  }
+
   return (
     <View style={ globalStyles.contenedor }>
       <View>
         <ScrollView>
           {
-            menu.map( platillo => {
+            menu.map(( platillo, idx ) => {
               const { id, nombre, precio, categoria, imagen, descripcion } = platillo;
 
               return (
-                <ListItem key={ id } bottomDivider>
-                  <Avatar size='large' source={{ uri: imagen }} />
-                  <ListItem.Content>
-                    <ListItem.Title>{ nombre }</ListItem.Title>
-                    <ListItem.Subtitle>{ descripcion }</ListItem.Subtitle>
-                    <ListItem.Subtitle>{ precio }</ListItem.Subtitle>
-                  </ListItem.Content>
-                </ListItem>
+                <Fragment key={ id }>
+                  { mostrarHeaderCategoria(categoria, idx) }
+
+                  <ListItem bottomDivider style={{ padding: StyleSheet.hairlineWidth }}>
+                    <Avatar size='large' source={{ uri: imagen }} />
+                    <ListItem.Content>
+                      <ListItem.Title>{ nombre }</ListItem.Title>
+                      <ListItem.Subtitle>{ descripcion }</ListItem.Subtitle>
+                      <ListItem.Subtitle>{ precio }</ListItem.Subtitle>
+                    </ListItem.Content>
+                  </ListItem>
+                </Fragment>
               )
             })
           }
@@ -38,5 +54,17 @@ const Menu = () => {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  separador: {
+    backgroundColor: '#000',
+    padding: 10
+  },
+  separadorTexto: {
+    color: '#FFDA00',
+    fontWeight: 'bold',
+    textTransform: 'uppercase'
+  }
+})
 
 export default Menu
