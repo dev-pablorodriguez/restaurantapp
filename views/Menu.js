@@ -40,9 +40,9 @@ const Menu = () => {
                   <ListItem bottomDivider style={{ padding: StyleSheet.hairlineWidth }}>
                     <Avatar size='large' source={{ uri: imagen }} />
                     <ListItem.Content>
-                      <ListItem.Title>{ nombre }</ListItem.Title>
-                      <ListItem.Subtitle>{ descripcion }</ListItem.Subtitle>
-                      <ListItem.Subtitle>{ precio }</ListItem.Subtitle>
+                      <ListItem.Title style={ styles.nombre }>{ nombre }</ListItem.Title>
+                      <ListItem.Subtitle style={ styles.descripcion } numberOfLines={ 2 }>{ descripcion }</ListItem.Subtitle>
+                      <ListItem.Subtitle style={ styles.precio }>Precio: ${ precio }</ListItem.Subtitle>
                     </ListItem.Content>
                   </ListItem>
                 </Fragment>
@@ -64,6 +64,15 @@ const styles = StyleSheet.create({
     color: '#FFDA00',
     fontWeight: 'bold',
     textTransform: 'uppercase'
+  },
+  nombre: {
+    fontSize: 18
+  },
+  descripcion: {
+    color: '#909090'
+  },
+  precio: {
+    fontSize: 16
   }
 })
 
