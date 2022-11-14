@@ -1,12 +1,15 @@
 import React, { useEffect, useContext, Fragment } from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
-import FirebaseContext from '../context/firebase/firebaseContext'
 import { ListItem, Avatar, Text } from '@rneui/themed'
-import globalStyles from '../styles/global'
 
+import FirebaseContext from '../context/firebase/firebaseContext'
+import { useNavigation }  from '@react-navigation/native'
+
+import globalStyles from '../styles/global'
 
 const Menu = () => {
 
+  const navigation = useNavigation();
   const { menu, getProductos } = useContext(FirebaseContext);
 
   useEffect( () => {
@@ -37,7 +40,7 @@ const Menu = () => {
                 <Fragment key={ id }>
                   { mostrarHeaderCategoria(categoria, idx) }
 
-                  <ListItem bottomDivider style={{ padding: StyleSheet.hairlineWidth }}>
+                  <ListItem onPress={ () => { navigation.navigate('DetallePlatillo', { id }) }} bottomDivider style={{ padding: StyleSheet.hairlineWidth }}>
                     <Avatar size='large' source={{ uri: imagen }} />
                     <ListItem.Content>
                       <ListItem.Title style={ styles.nombre }>{ nombre }</ListItem.Title>
@@ -69,7 +72,8 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   descripcion: {
-    color: '#909090'
+    color: '#909090',
+    textAlign: 'justify'
   },
   precio: {
     fontSize: 16
