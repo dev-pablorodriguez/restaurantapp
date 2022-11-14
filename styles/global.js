@@ -16,11 +16,11 @@ const globalStyles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#000'
     },
-    // title: {
-    //     textAlign: 'center',
-    //     marginTop: 20,
-    //     fontSize: 30
-    // },
+    title: {
+        textAlign: 'center',
+        marginTop: 20,
+        fontSize: 30
+    },
     cantidad: {
         marginVertical: 20,
         fontSize: 24,

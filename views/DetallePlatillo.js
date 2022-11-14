@@ -30,9 +30,8 @@ const DetallePlatillo = ({ route }) => {
       <Button
         buttonStyle={[ globalStyles.btn, { marginVertical: 20 } ]}
         titleStyle={ globalStyles.btnText }
-        radius='20'
         title='Ordenar Platillo'
-        onPress={ () => navigation.navigate('FormularioPlatillo') }
+        onPress={ () => navigation.navigate('FormularioPlatillo', { id }) }
       />
     </View>
   )
