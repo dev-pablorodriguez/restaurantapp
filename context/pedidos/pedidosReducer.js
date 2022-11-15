@@ -1,4 +1,8 @@
-import { ADD_PEDIDO_ITEM, SET_TOTAL_PAGAR } from '../../reducerTypes'
+import {
+    ADD_PEDIDO_ITEM,
+    SET_TOTAL_PAGAR,
+    DEL_ITEM_PEDIDO
+} from '../../reducerTypes'
 
 export default (state, action) => {
     switch(action.type){
@@ -26,6 +30,8 @@ export default (state, action) => {
         case SET_TOTAL_PAGAR:
             return { ...state, total: action.payload }
 
+        case DEL_ITEM_PEDIDO:
+            return { ...state, pedido: state.pedido.filter(item => item.id !== action.payload) }
         default:
             return state;
     }

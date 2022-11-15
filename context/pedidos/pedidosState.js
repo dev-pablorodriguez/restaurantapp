@@ -2,7 +2,11 @@ import React, { useReducer } from 'react'
 import pedidosReducer from './pedidosReducer'
 import PedidosContext from './pedidosContext'
 
-import { ADD_PEDIDO_ITEM, SET_TOTAL_PAGAR } from '../../reducerTypes'
+import {
+    ADD_PEDIDO_ITEM,
+    SET_TOTAL_PAGAR,
+    DEL_ITEM_PEDIDO
+} from '../../reducerTypes'
 
 const PedidosState = ({ children }) => {
     //crear state inicial
@@ -30,8 +34,23 @@ const PedidosState = ({ children }) => {
         })
     }
 
+    //Eliminar un elemento del pedido
+    const delItemPedido = id => {
+        dispatch({
+            type: DEL_ITEM_PEDIDO,
+            payload: id
+        })
+    }
+
     return (
-        <PedidosContext.Provider value={{ ...state, addPedidoItem, setTotalPagar }}>
+        <PedidosContext.Provider
+            value={{
+                ...state,
+                addPedidoItem,
+                setTotalPagar,
+                delItemPedido
+            }}
+        >
             { children }
         </PedidosContext.Provider>
     )

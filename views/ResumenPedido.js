@@ -1,9 +1,11 @@
 import React, { useEffect, useContext } from 'react'
-import { StyleSheet, View, ScrollView } from 'react-native'
-import { ListItem, Avatar, Text } from '@rneui/themed'
+import { StyleSheet, View, ScrollView, Alert } from 'react-native'
+import { ListItem, Avatar, Text, Button, Icon } from '@rneui/themed'
 
 import PedidosContext from '../context/pedidos/pedidosContext'
 import { useNavigation }  from '@react-navigation/native'
+
+import BtnEliminar from '../components/ui/BtnEliminar'
 
 import globalStyles from '../styles/global'
 
@@ -18,6 +20,21 @@ const ResumenPedido = () => {
     setTotalPagar(totalPagar)
   }, [ pedido ])
 
+  const confirmarOrden = () => {
+    Alert.alert(
+      '¿Deseas finalizar tu compra?',
+      'Una vez finalizada tu compra no podrás agregar más productos.',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        { text: 'Confirmar', onPress: () => {
+
+          //Navegar hacia ProgresoPedido
+          navigation.navigate('ProgresoPedido')
+        }}
+      ]
+    )
+  }
+
   return (
     <View style={ globalStyles.contenedor }>
       <Text style={[ globalStyles.title, { marginBottom: 20 } ]}>Resumen Pedido</Text>
@@ -27,33 +44,51 @@ const ResumenPedido = () => {
             const { id, nombre, precio, imagen, cantidad } = platillo;
 
             return (
-              <ListItem key={ id } bottomDivider style={{ padding: StyleSheet.hairlineWidth }}>
+              <ListItem.Swipeable
+                key={ id }
+                bottomDivider
+                style={{ padding: StyleSheet.hairlineWidth }}
+                rightContent={ <BtnEliminar id={ id } /> }
+              >
                 <Avatar size='large' source={{ uri: imagen }} />
                 <ListItem.Content>
-                  <ListItem.Title style={ styles.listItemTitle }>{ nombre }</ListItem.Title>
-                  <ListItem.Subtitle style={ styles.listItemSubtitle }>Cantidad: { cantidad }</ListItem.Subtitle>
-                  <ListItem.Subtitle style={ styles.listItemSubtitle }>Precio: ${ precio }</ListItem.Subtitle>
+                  <ListItem.Title style={{ fontSize: 18 }}>{ nombre }</ListItem.Title>
+                  <ListItem.Subtitle style={{ fontSize: 16 }}>Cantidad: { cantidad }</ListItem.Subtitle>
+                  <ListItem.Subtitle style={{ fontSize: 16 }}>Precio: ${ precio }</ListItem.Subtitle>
                 </ListItem.Content>
-              </ListItem>
+                <ListItem.Chevron />
+              </ListItem.Swipeable>
             )
           })
         }
 
-        <Text style={[ globalStyles.cantidad, styles.cantidad ]}>Total a pagar: ${ total }</Text>
+        <Text style={[ globalStyles.cantidad, { textAlign: 'center' } ]}>Total a pagar: ${ total }</Text>
+
+        <Button
+          color='black'
+          buttonStyle={{ margin: 20 }}
+          titleStyle={ styles.btnSeguirPidiendo }
+          title='Seguir Pidiendo'
+          onPress={ () => navigation.navigate('Menu') }
+        />
       </ScrollView>
+
+      <Button
+        buttonStyle={[ globalStyles.btn, { marginVertical: 20 } ]}
+        titleStyle={ globalStyles.btnText }
+        title='Finalizar Compra'
+        onPress={ confirmarOrden }
+      />
+      
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  listItemTitle: {
-    fontSize: 18
-  },
-  listItemSubtitle: {
-    fontSize: 16
-  },
-  cantidad: {
-    textAlign: 'center'
+  btnSeguirPidiendo: {
+    color: '#FFF',
+    textTransform: 'uppercase',
+    fontWeight: 'bold'
   }
 })
 
