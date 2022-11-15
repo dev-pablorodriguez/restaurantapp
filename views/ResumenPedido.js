@@ -4,6 +4,7 @@ import { ListItem, Avatar, Text, Button, Icon } from '@rneui/themed'
 
 import PedidosContext from '../context/pedidos/pedidosContext'
 import { useNavigation }  from '@react-navigation/native'
+import firebase from '../firebase'
 
 import BtnEliminar from '../components/ui/BtnEliminar'
 
@@ -18,6 +19,9 @@ const ResumenPedido = () => {
     const totalPagar = pedido.reduce((acc, curr) => acc + curr.total, 0);
 
     setTotalPagar(totalPagar)
+
+    //Redirecciona automáticamente al menú si el pedido está vacío
+    if(pedido.length === 0) navigation.navigate('Menu')
   }, [ pedido ])
 
   const confirmarOrden = () => {
@@ -26,10 +30,27 @@ const ResumenPedido = () => {
       'Una vez finalizada tu compra no podrás agregar más productos.',
       [
         { text: 'Cancelar', style: 'cancel' },
-        { text: 'Confirmar', onPress: () => {
+        { text: 'Confirmar', onPress: async () => {
 
-          //Navegar hacia ProgresoPedido
-          navigation.navigate('ProgresoPedido')
+          //Generar pedido para Firebase
+          const pedidoFinal = {
+            tiempoEntrega: 0,
+            completado: false,
+            total: Number(total),
+            orden: pedido,
+            created: Date.now()
+          }
+
+          //Escribir en Firebase
+          try {
+            const pedido = await firebase.db.collection('ordenes').add(pedidoFinal);
+
+            //Navegar hacia ProgresoPedido
+            navigation.navigate('ProgresoPedido', { idOrden: pedido.id })
+
+          } catch (error) {
+            console.log(error)
+          }
         }}
       ]
     )
