@@ -16,6 +16,8 @@ const ProgresoPedido = ({ route }) => {
   const [ tiempoEntrega, setTiempoEntrega ] = useState(0)
   const [ completado, setCompletado ] = useState(false)
 
+  const navigation = useNavigation();
+
   useEffect( () => {
     const getProducto = () => {
       firebase.db.collection('ordenes')
@@ -56,6 +58,14 @@ const ProgresoPedido = ({ route }) => {
           <>
             <Text style={ styles.ordenLista }>Orden Lista</Text>
             <Text style={ styles.texto }>Por favor pasa a retirar tu pedido</Text>
+
+            <Button
+              buttonStyle={[ globalStyles.btn, { marginTop: 100 } ]}
+              titleStyle={ globalStyles.btnText }
+              radius='20'
+              title='Comenzar una nueva orden'
+              onPress={ () => navigation.navigate('NuevaOrden') }
+            />
           </>
           :
           <>

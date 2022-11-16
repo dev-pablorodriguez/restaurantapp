@@ -11,7 +11,7 @@ import BtnEliminar from '../components/ui/BtnEliminar'
 import globalStyles from '../styles/global'
 
 const ResumenPedido = () => {
-  const { pedido, total, setTotalPagar } = useContext(PedidosContext);
+  const { pedido, total, setTotalPagar, reiniciarPedido } = useContext(PedidosContext);
 
   const navigation = useNavigation();
 
@@ -20,11 +20,23 @@ const ResumenPedido = () => {
 
     setTotalPagar(totalPagar)
 
-    //Redirecciona automáticamente al menú si el pedido está vacío
-    if(pedido.length === 0) navigation.navigate('Menu')
   }, [ pedido ])
 
   const confirmarOrden = () => {
+    if(pedido.length === 0){
+      Alert.alert(
+        'Tu pedido está vacío',
+        'Agrega algún producto antes de continuar.',
+        [
+          { text: 'Cancelar', style: 'cancel' },
+          { text: 'Ir al Menú', onPress: () => {
+            navigation.navigate('Menu');
+          }}
+        ]
+      )
+      return;
+    }
+
     Alert.alert(
       '¿Deseas finalizar tu compra?',
       'Una vez finalizada tu compra no podrás agregar más productos.',
@@ -44,6 +56,9 @@ const ResumenPedido = () => {
           //Escribir en Firebase
           try {
             const pedido = await firebase.db.collection('ordenes').add(pedidoFinal);
+
+            //En este punto solo queda monitorear la orden, por lo que se reinicia el state
+            reiniciarPedido()
 
             //Navegar hacia ProgresoPedido
             navigation.navigate('ProgresoPedido', { idOrden: pedido.id })

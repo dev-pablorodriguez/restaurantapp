@@ -5,7 +5,8 @@ import PedidosContext from './pedidosContext'
 import {
     ADD_PEDIDO_ITEM,
     SET_TOTAL_PAGAR,
-    DEL_ITEM_PEDIDO
+    DEL_ITEM_PEDIDO,
+    REINICIAR_PEDIDO
 } from '../../reducerTypes'
 
 const PedidosState = ({ children }) => {
@@ -42,13 +43,20 @@ const PedidosState = ({ children }) => {
         })
     }
 
+    const reiniciarPedido = () => {
+        dispatch({
+            type: REINICIAR_PEDIDO
+        })
+    }
+
     return (
         <PedidosContext.Provider
             value={{
                 ...state,
                 addPedidoItem,
                 setTotalPagar,
-                delItemPedido
+                delItemPedido,
+                reiniciarPedido
             }}
         >
             { children }

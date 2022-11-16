@@ -1,7 +1,8 @@
 import {
     ADD_PEDIDO_ITEM,
     SET_TOTAL_PAGAR,
-    DEL_ITEM_PEDIDO
+    DEL_ITEM_PEDIDO,
+    REINICIAR_PEDIDO
 } from '../../reducerTypes'
 
 export default (state, action) => {
@@ -32,6 +33,8 @@ export default (state, action) => {
 
         case DEL_ITEM_PEDIDO:
             return { ...state, pedido: state.pedido.filter(item => item.id !== action.payload) }
+        case REINICIAR_PEDIDO:
+            return { ...state, pedido: [], total: 0 }
         default:
             return state;
     }
